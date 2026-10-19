@@ -2,12 +2,16 @@ import { useRef, useState, type FormEvent } from 'react';
 import { CALLBACK_URL, PHONE_DISPLAY } from '../config';
 import { formatPhoneInput, isCompletePhone } from '../lib/phone';
 
-type Status = 'idle' | 'sending' | 'ok' | 'error' | 'limited';
+type Status = 'idle' | 'sending' | 'ok' | 'error' | 'limited' | 'demo';
+
+/** Демо-сборка (GitHub Pages): бэкенда нет, поэтому заявки не принимаются. */
+const DEMO = import.meta.env.VITE_DEMO === 'true';
 
 const MESSAGES: Record<Exclude<Status, 'idle' | 'sending'>, string> = {
   ok: 'Спасибо! Мы получили заявку и скоро перезвоним.',
   error: `Не удалось отправить. Позвоните нам напрямую: ${PHONE_DISPLAY}`,
   limited: `Слишком много заявок с вашего адреса. Позвоните нам напрямую: ${PHONE_DISPLAY}`,
+  demo: `Это демо-версия сайта: заявки здесь не принимаются. На рабочем сайте форма отправит их в Telegram. Позвонить можно: ${PHONE_DISPLAY}`,
 };
 
 /** Форма обратного звонка. Заявка уходит на бэкенд (/api/callback), оттуда в Telegram. */
@@ -34,6 +38,8 @@ export function CallbackForm() {
     setAgreeError(agreeProblem);
     if (phoneProblem) return phoneRef.current?.focus();
     if (agreeProblem) return agreeRef.current?.focus();
+
+    if (DEMO) return setStatus('demo');
 
     setStatus('sending');
     try {
@@ -130,11 +136,11 @@ export function CallbackForm() {
       </button>
 
       <p
-        className={`form__status${status === 'ok' ? ' ok' : status === 'error' || status === 'limited' ? ' bad' : ''}`}
+        className={`form__status${status === 'ok' ? ' ok' : status === 'error' || status === 'limited' || status === 'demo' ? ' bad' : ''}`}
         role="status"
         aria-live="polite"
       >
-        {status === 'ok' || status === 'error' || status === 'limited' ? MESSAGES[status] : ''}
+        {status === 'ok' || status === 'error' || status === 'limited' || status === 'demo' ? MESSAGES[status] : ''}
       </p>
     </form>
   );
