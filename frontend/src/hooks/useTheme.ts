@@ -20,7 +20,8 @@ function readStored(): Theme | null {
  */
 export function useTheme() {
   const [stored, setStored] = useState<Theme | null>(readStored);
-  const [systemDark, setSystemDark] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches);
+  // typeof window: этот код выполняется и при предрендере на сервере (см. scripts/prerender.mjs), где браузера нет
+  const [systemDark, setSystemDark] = useState(() => typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-color-scheme: dark)');

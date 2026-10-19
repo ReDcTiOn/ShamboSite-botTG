@@ -217,6 +217,11 @@ details p { padding: 0 0 20px; color: var(--ink-2); max-width: 60ch; }
 .foot { padding: 28px 0 96px; color: var(--muted); font-size: 15px; }
 .foot__in { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .foot a { text-decoration: none; font-weight: 600; color: var(--ink); }
+.foot__legal { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line, currentColor); font-size: 14px; }
+.foot__legal p { margin: 0 0 8px; }
+.foot__legal nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+.foot__legal a { font-weight: 500; text-decoration: underline; text-decoration-color: var(--accent, currentColor); text-underline-offset: 3px; }
+.agree a { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--accent, currentColor); text-underline-offset: 3px; }
 
 .fab {
   position: fixed; right: 16px; bottom: 16px; z-index: 30;

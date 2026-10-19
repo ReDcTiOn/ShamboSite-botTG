@@ -42,16 +42,18 @@ export async function buildServer({ config, store, createNotifier, logger = true
       const parsed = leadInputSchema.safeParse(req.body ?? {});
       if (!parsed.success) return reply.code(400).send({ ok: false, error: 'invalid_input' });
 
-      const { name, phone, comment, website } = parsed.data;
+      const { name, phone, comment, website, consent, consentVersion } = parsed.data;
       if (website) {
         req.log.info('заявка отброшена: сработала ловушка для ботов');
         return { ok: true };
       }
 
+      if (consent !== true) return reply.code(400).send({ ok: false, error: 'consent_required' });
+
       const normalized = normalizePhone(phone);
       if (!normalized) return reply.code(400).send({ ok: false, error: 'invalid_phone' });
 
-      const lead = await store.add({ name: cleanText(name), phone: normalized, comment: cleanText(comment) });
+      const lead = await store.add({ name: cleanText(name), phone: normalized, comment: cleanText(comment), consentVersion });
       req.log.info({ leadId: lead.id }, 'новая заявка');
 
       // Заявка уже сохранена. Если Telegram недоступен, посетителю всё равно отвечаем «принято».

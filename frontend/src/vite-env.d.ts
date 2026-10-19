@@ -8,3 +8,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+/** Реквизиты оператора для подвала (пусто, пока legal/operator.json не заполнен). Подставляется при сборке в vite.config.ts. */
+declare const __OPERATOR_LINE__: string;
+/** Версия документа «Согласие»: уходит вместе с заявкой, чтобы знать, с каким текстом согласился человек. */
+declare const __CONSENT_VERSION__: string;

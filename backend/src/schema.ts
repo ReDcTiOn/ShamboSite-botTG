@@ -6,6 +6,10 @@ export const leadInputSchema = z.object({
   phone: z.string().trim().min(1).max(40),
   comment: z.string().trim().max(400).optional().default(''),
   website: z.string().max(200).optional().default(''),
+  /** Галочка согласия на обработку персональных данных. Без неё заявка не принимается. */
+  consent: z.boolean().optional(),
+  /** Версия документа «Согласие», который видел человек. */
+  consentVersion: z.string().trim().max(40).optional().default(''),
 });
 
 export type LeadInput = z.infer<typeof leadInputSchema>;

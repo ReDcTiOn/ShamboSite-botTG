@@ -6,6 +6,7 @@ type Status = 'idle' | 'sending' | 'ok' | 'error' | 'limited' | 'demo';
 
 /** Демо-сборка (GitHub Pages): бэкенда нет, поэтому заявки не принимаются. */
 const DEMO = import.meta.env.VITE_DEMO === 'true';
+const BASE = import.meta.env.BASE_URL;
 
 const MESSAGES: Record<Exclude<Status, 'idle' | 'sending'>, string> = {
   ok: 'Спасибо! Мы получили заявку и скоро перезвоним.',
@@ -33,7 +34,7 @@ export function CallbackForm() {
     setStatus('idle');
 
     const phoneProblem = isCompletePhone(phone) ? '' : 'Введите номер полностью, 10 цифр после +7';
-    const agreeProblem = agree ? '' : 'Нужно ваше согласие, чтобы мы могли перезвонить';
+    const agreeProblem = agree ? '' : 'Без согласия на обработку персональных данных мы не можем принять заявку';
     setPhoneError(phoneProblem);
     setAgreeError(agreeProblem);
     if (phoneProblem) return phoneRef.current?.focus();
@@ -46,7 +47,7 @@ export function CallbackForm() {
       const response = await fetch(CALLBACK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), phone, comment: comment.trim(), website }),
+        body: JSON.stringify({ name: name.trim(), phone, comment: comment.trim(), website, consent: true, consentVersion: __CONSENT_VERSION__ }),
       });
       if (response.status === 429) return setStatus('limited');
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -123,7 +124,16 @@ export function CallbackForm() {
 
       <label className="agree">
         <input ref={agreeRef} type="checkbox" name="agree" required checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-        <span>Согласен на обработку моих данных для обратного звонка</span>
+        <span>
+          Даю{' '}
+          <a href={`${BASE}consent/`} target="_blank" rel="noopener">
+            согласие на обработку персональных данных
+          </a>{' '}
+          и ознакомлен с{' '}
+          <a href={`${BASE}privacy/`} target="_blank" rel="noopener">
+            Политикой
+          </a>
+        </span>
       </label>
       {agreeError && (
         <small className="err" role="alert">

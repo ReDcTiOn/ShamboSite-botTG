@@ -12,6 +12,8 @@ const schema = z.object({
   DATA_DIR: opt(z.string()).transform((v) => v ?? './data'),
   LOG_LEVEL: opt(z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'])).transform((v) => v ?? 'info'),
   RATE_LIMIT_MAX: opt(z.coerce.number().int().min(1)).transform((v) => v ?? 5),
+  /** Сколько дней хранить заявки (должно совпадать с политикой на сайте, frontend/legal/operator.json). */
+  LEADS_RETENTION_DAYS: opt(z.coerce.number().int().min(1)).transform((v) => v ?? 365),
   RATE_LIMIT_WINDOW: opt(z.string()).transform((v) => v ?? '1 hour'),
   TELEGRAM_BOT_TOKEN: opt(z.string().trim()),
   TELEGRAM_CHAT_IDS: opt(z.string())

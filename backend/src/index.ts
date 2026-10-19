@@ -8,6 +8,13 @@ async function main() {
   const store = new LeadStore(config.DATA_DIR);
   await store.init();
 
+  const purge = async () => {
+    const removed = await store.purgeOlderThan(config.LEADS_RETENTION_DAYS);
+    if (removed > 0) console.log(`Удалено заявок старше ${config.LEADS_RETENTION_DAYS} дн.: ${removed}`);
+  };
+  await purge();
+  setInterval(() => void purge().catch((err) => console.error('Не удалось очистить старые заявки:', err)), 86_400_000).unref();
+
   const { app, notifier } = await buildServer({
     config,
     store,

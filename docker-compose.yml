@@ -6,6 +6,10 @@ services:
   api:
     build: ./backend
     restart: unless-stopped
+    logging: &logs
+      # Журналы не растут бесконечно: хранятся 3 файла по 10 МБ (в них может попадать IP посетителя, см. политику)
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
     env_file: .env
     environment:
       PORT: "3000"
@@ -17,8 +21,15 @@ services:
 
   # Фронтенд + Caddy: отдаёт сайт, проксирует /api на бэкенд, сам делает HTTPS
   web:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        # Для поисковиков: sitemap.xml, canonical, коды подтверждения (см. docs/SEO.md). Сайт нужно пересобрать: docker compose up -d --build
+        SITE_URL: ${SITE_URL:-}
+        YANDEX_VERIFICATION: ${YANDEX_VERIFICATION:-}
+        GOOGLE_VERIFICATION: ${GOOGLE_VERIFICATION:-}
     restart: unless-stopped
+    logging: *logs
     depends_on:
       - api
     environment:
