@@ -1,0 +1,37 @@
+# Запуск всего сайта одной командой: docker compose up -d --build
+# Настройки берутся из файла .env (шаблон: .env.example).
+
+services:
+  # Бэкенд: принимает заявки с формы, сохраняет их и шлёт в Telegram (бот живёт в этом же контейнере)
+  api:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: "3000"
+      DATA_DIR: /data
+    volumes:
+      - leads:/data
+    expose:
+      - "3000"
+
+  # Фронтенд + Caddy: отдаёт сайт, проксирует /api на бэкенд, сам делает HTTPS
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      DOMAIN: ${DOMAIN:-:80}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  leads: # заявки (leads.jsonl)
+  caddy_data: # сертификаты HTTPS
+  caddy_config:
