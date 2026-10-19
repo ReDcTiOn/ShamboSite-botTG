@@ -92,7 +92,7 @@ sudo ufw status
 ### 5. Скачайте проект и заполните настройки
 
 ```bash
-git clone https://github.com/ReDcTiOn/ShamboSite-botTG.git
+git clone -b main https://github.com/ReDcTiOn/ShamboSite-botTG.git
 cd ShamboSite-botTG
 cp .env.example .env
 nano .env
@@ -108,7 +108,7 @@ TELEGRAM_CHAT_IDS=               # пока пусто, заполним на ш
 
 Сохранить в nano: `Ctrl+O`, `Enter`, выйти: `Ctrl+X`.
 
-> Если в репозитории основная ветка называется не так, как нужно, добавьте имя ветки при клонировании: `git clone -b ИМЯ_ВЕТКИ https://github.com/ReDcTiOn/ShamboSite-botTG.git`.
+> Основная ветка проекта: `main`. Обновления на сервере берутся командой `git pull` (шаг «Повседневная работа»).
 
 ### 6. Запустите
 
