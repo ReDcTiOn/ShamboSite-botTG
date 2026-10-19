@@ -452,7 +452,8 @@ details[open]::details-content { block-size: auto; }
 /* ===== сцена как фон первого экрана ===== */
 .hero {
   --sc-sky: #e6eef6;
-  --scene-h: clamp(292px, 24.75vw, 371px);
+  /* не ниже 16.08vw: на очень широких экранах кадр иначе обрезался бы сверху (солнце, кроны, облака) */
+  --scene-h: max(clamp(292px, 24.75vw, 371px), 16.08vw);
   padding-bottom: calc(var(--scene-h) - 30px);
   background: linear-gradient(180deg, var(--paper) 0, var(--sc-sky) 35%);
 }
