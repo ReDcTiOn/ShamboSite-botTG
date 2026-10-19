@@ -1,0 +1,15 @@
+{
+  "name": "Откачка шамбо",
+  "short_name": "Откачка шамбо",
+  "description": "Откачка шамбо, септиков и выгребных ям в Хабаровске и Хабаровском районе",
+  "lang": "ru",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f5f8",
+  "theme_color": "#0e2236",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
