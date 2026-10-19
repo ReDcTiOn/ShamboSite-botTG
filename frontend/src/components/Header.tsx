@@ -1,4 +1,5 @@
 import { AREA, BRAND, PHONE_DISPLAY, TEL_HREF } from '../config';
+import { useActiveSection } from '../hooks/useActiveSection';
 import { ThemeToggle } from './ThemeToggle';
 
 const NAV = [
@@ -22,6 +23,7 @@ function Logo() {
 }
 
 export function Header() {
+  const active = useActiveSection(NAV.map((item) => item.href.slice(1)));
   return (
     <header className="top">
       <div className="wrap top__in">
@@ -34,7 +36,7 @@ export function Header() {
         </a>
         <nav className="nav" aria-label="Разделы">
           {NAV.map((item) => (
-            <a key={item.href} href={item.href}>
+            <a key={item.href} href={item.href} aria-current={active === item.href.slice(1) ? 'true' : undefined}>
               {item.label}
             </a>
           ))}

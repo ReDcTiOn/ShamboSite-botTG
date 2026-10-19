@@ -25,7 +25,7 @@ export function useSceneController(frameRef: RefObject<HTMLElement | null>) {
     // Узкий экран: показываем центральную часть двора, а не всю ширину мира.
     const narrow = window.matchMedia('(max-width: 700px)');
     const applyView = () => {
-      scene.setAttribute('viewBox', narrow.matches ? '100 50 425 240' : '-500 50 1680 240');
+      scene.setAttribute('viewBox', narrow.matches ? '100 20 425 270' : '-500 20 1680 270');
       scene.setAttribute('preserveAspectRatio', narrow.matches ? 'xMidYMax meet' : 'xMidYMax slice');
     };
     applyView();
@@ -53,6 +53,13 @@ export function useSceneController(frameRef: RefObject<HTMLElement | null>) {
     };
     toggleRef.current = () => (isPaused ? resume() : pause());
 
+    // Вкладка свернута: останавливаем движение, чтобы не тратить батарею (если нет пользовательской паузы)
+    const onVisibility = () => {
+      if (isPaused) return;
+      animations().forEach((a) => (document.hidden ? a.pause() : a.play()));
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
     const timer = reducedMotion
       ? undefined
       : window.setInterval(() => {
@@ -74,6 +81,7 @@ export function useSceneController(frameRef: RefObject<HTMLElement | null>) {
     return () => {
       observer.disconnect();
       narrow.removeEventListener('change', applyView);
+      document.removeEventListener('visibilitychange', onVisibility);
       if (timer) window.clearInterval(timer);
     };
   }, [frameRef]);

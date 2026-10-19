@@ -13,9 +13,12 @@ import { WaveDivider } from './components/WaveDivider';
 export default function App() {
   return (
     <>
+      <a className="skip-link" href="#content">
+        Перейти к содержимому
+      </a>
       <ScrollProgress />
       <Header />
-      <main>
+      <main id="content" tabIndex={-1}>
         <Hero />
         <Strip />
         <Services />
