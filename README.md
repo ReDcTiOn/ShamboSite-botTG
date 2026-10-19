@@ -101,9 +101,12 @@ nano .env
 Заполните в `.env`:
 
 ```env
-DOMAIN=:80                       # пока по IP; домен впишем позже (шаг 8)
-TELEGRAM_BOT_TOKEN=123456789:AA...   # токен от BotFather
-TELEGRAM_CHAT_IDS=               # пока пусто, заполним на шаге 7
+# Пока по IP; домен впишем позже (шаг 8)
+DOMAIN=:80
+# Токен от BotFather
+TELEGRAM_BOT_TOKEN=123456789:AA...
+# Пока пусто, заполним на шаге 7
+TELEGRAM_CHAT_IDS=
 ```
 
 Сохранить в nano: `Ctrl+O`, `Enter`, выйти: `Ctrl+X`.
