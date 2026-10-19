@@ -25,7 +25,7 @@
 2. В `.env` на сервере впишите адрес с `https://` и без слеша в конце:
 
    ```env
-   SITE_URL=https://example.ru
+   SITE_URL=https://shambo27.ru
    ```
 
 3. Пересоберите сайт, адрес попадает в `sitemap.xml`, `canonical` и картинку для соцсетей только при сборке:
@@ -34,13 +34,13 @@
    docker compose up -d --build
    ```
 
-4. Проверьте в браузере: `https://example.ru/robots.txt` и `https://example.ru/sitemap.xml` должны открываться.
+4. Проверьте в браузере: `https://shambo27.ru/robots.txt` и `https://shambo27.ru/sitemap.xml` должны открываться.
 
 ### 2. Яндекс Вебмастер
 
 Для Хабаровска это главный поисковик, начните с него.
 
-1. Откройте [webmaster.yandex.ru](https://webmaster.yandex.ru), нажмите «Добавить сайт», впишите `https://example.ru`.
+1. Откройте [webmaster.yandex.ru](https://webmaster.yandex.ru), нажмите «Добавить сайт», впишите `https://shambo27.ru`.
 2. Выберите подтверждение через метатег. Яндекс покажет строку вида `<meta name="yandex-verification" content="a1b2c3d4e5f6" />`. В `.env` нужно записать только значение из `content`:
 
    ```env
@@ -48,13 +48,13 @@
    ```
 
 3. Выполните `docker compose up -d --build` и нажмите «Проверить» в Вебмастере.
-4. В разделе «Индексирование → Файлы Sitemap» добавьте `https://example.ru/sitemap.xml`.
+4. В разделе «Индексирование → Файлы Sitemap» добавьте `https://shambo27.ru/sitemap.xml`.
 5. В разделе «Информация о сайте → Регион» укажите «Хабаровск» (если Яндекс сам не определил регион).
 6. В разделе «Индексирование → Переобход страниц» отправьте главную страницу на переобход, это ускорит первое попадание в поиск.
 
 ### 3. Google Search Console
 
-1. Откройте [search.google.com/search-console](https://search.google.com/search-console), добавьте ресурс «Префикс URL» `https://example.ru`.
+1. Откройте [search.google.com/search-console](https://search.google.com/search-console), добавьте ресурс «Префикс URL» `https://shambo27.ru`.
 2. Выберите подтверждение метатегом HTML, возьмите только значение `content` и впишите в `.env`:
 
    ```env
